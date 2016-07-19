@@ -4,4 +4,9 @@ codes = File.open('codes.txt').map {|c| c.gsub(/\n+/,'')}
 
 res = codes.map{|c| UkrainianCodes.edrpou? c}
 
-puts res
+trues = res.count(true)
+falses = res.count(false)
+
+
+puts "True - #{trues}"
+puts "False - #{falses}"
