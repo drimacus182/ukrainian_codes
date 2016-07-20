@@ -43,23 +43,43 @@ module UkrainianCodes
 	#####################################################################
 
 	WEIGHTS_IPN_10 = [-1,5,7,9,4,6,10,5,7]
-	WEIGHTS_IPN_12 = [13,17,19,23,29,31,37,41,43,47,53]
-	
+	WEIGHTS_IPN_12_1 = [11,13,17,19,23,29,31,37,41,43,47]
+	WEIGHTS_IPN_12_2 = [13,17,19,23,29,31,37,41,43,47,53]
+	WEIGHTS_IPN_9_1 = [9,11,13,17,19,23,29,31]
+	WEIGHTS_IPN_9_2 = [11,13,17,19,23,29,31,37]
+
 	def self.ipn? code_str
 		code_str = code_str.strip
 		if /\A\d{10}\z/.match(code_str)
-			weights = WEIGHTS_IPN_10
+			code = code_str.split('').map { |c| c.to_i }
+			summ = WEIGHTS_IPN_10.each_with_index.map { |w, i| w * code[i] }.reduce(:+)
+			remainder = (summ % 11) % 10
+
+			return remainder == code.last
 		elsif /\A\d{12}\z/.match(code_str)
-			weights = WEIGHTS_IPN_12
-		else 
-			return false
+			code = code_str.split('').map { |c| c.to_i }
+			summ = WEIGHTS_IPN_12_1.each_with_index.map { |w, i| w * code[i] }.reduce(:+)
+			remainder = summ % 11
+
+			return remainder == code.last if remainder < 10
+
+			summ = WEIGHTS_IPN_12_2.each_with_index.map { |w, i| w * code[i] }.reduce(:+)
+			remainder = (summ % 11) % 10
+
+			return remainder == code.last
+		elsif	/\A\d{9}\z/.match(code_str)
+			code = code_str.split('').map { |c| c.to_i }
+			summ = WEIGHTS_IPN_9_1.each_with_index.map { |w, i| w * code[i] }.reduce(:+)
+			remainder = summ % 11
+
+			return remainder == code.last if remainder < 10
+
+			summ = WEIGHTS_IPN_9_2.each_with_index.map { |w, i| w * code[i] }.reduce(:+)
+			remainder = (summ % 11) % 10
+
+			return remainder == code.last
 		end
 
-		code = code_str.split('').map { |c| c.to_i }
-
-		summ = weights.each_with_index.map { |w, i| w * code[i] }.reduce(:+)
-		remainder = (summ % 11) % 10
-
-		return remainder == code.last
+		return false
 	end
 end

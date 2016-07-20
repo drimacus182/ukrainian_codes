@@ -32,3 +32,14 @@ falses = res.count(false)
 puts "IPN 12"
 puts "True - #{trues}"
 puts "False - #{falses}"
+
+codes = File.open('ipn_9.txt').map {|c| c.gsub(/\n+/,'')}
+
+res = codes.map{ |c| UkrainianCodes.ipn? c}
+
+trues = res.count(true)
+falses = res.count(false)
+
+puts "IPN 9"
+puts "True - #{trues}"
+puts "False - #{falses}"
