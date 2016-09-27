@@ -5,6 +5,10 @@ module UkrainianCodes
 	WEIGHTS_INNER_2 = [9,3,4,5,6,7,8]
 
 	def self.edrpou? code_str
+		if code_str.nil?
+			return false
+		end
+		
 		code_str = code_str.strip
 		return false unless /\A\d{8}\z/.match(code_str)
 
