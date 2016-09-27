@@ -53,6 +53,10 @@ module UkrainianCodes
 	WEIGHTS_IPN_9_2 = [11,13,17,19,23,29,31,37]
 
 	def self.ipn? code_str
+		if code_str.nil?
+			return false
+		end
+		
 		code_str = code_str.strip
 		if /\A\d{10}\z/.match(code_str)
 			code = code_str.split('').map { |c| c.to_i }
