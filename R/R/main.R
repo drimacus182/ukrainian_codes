@@ -46,14 +46,53 @@ check.edrpou <- function(str.v) {
   return(res)
 }
 
-check.ipn <- function(str) {
+check.ipn <- function(str.v) {
+  weights.ipn.10 <- c(-1,5,7,9,4,6,10,5,7)
+  weights.ipn.12.1 <- c(11,13,17,19,23,29,31,37,41,43,47)
+  weights.ipn.12.2 <- c(13,17,19,23,29,31,37,41,43,47,53)
+  weights.ipn.9.1 <- c(9,11,13,17,19,23,29,31)
+  weights.ipn.9.2 <- c(11,13,17,19,23,29,31,37)
   
+  na.v <- is.na(str.v)
   
+  res <- map2_lgl(str.v, na.v, function(str, na){
+    if (na) return(FALSE)
+    
+    if (str_detect(str, '^\\d{10}$')) {
+      code = (str %>% str_split(''))[[1]] %>% as.integer()
+      summ <- sum(code[1:9] * weights.ipn.10) 
+      remainder = (summ %% 11) %% 10
+      return(remainder == last(code))
+    
+    } else if (str_detect(str, '^\\d{12}$')) {
+      code = (str %>% str_split(''))[[1]] %>% as.integer()
+      
+      summ = sum(code[1:11] * weights.ipn.12.1) 
+      remainder = summ %% 11
+      
+      if (remainder < 10) return(remainder == last(code))
+      
+      summ = sum(code[1:11] * weights.ipn.12.2)
+      remainder = (summ %% 11) %% 10
+      
+      return(remainder == last(code))
+      
+    } else if (str_detect(str, '^\\d{9}$')) {
+      code = (str %>% str_split(''))[[1]] %>% as.integer()
+      
+      summ = sum(code[1:8] * weights.ipn.9.1) 
+      remainder = summ %% 11
+      
+      if (remainder < 10) return(remainder == last(code))
+      
+      summ = sum(code[1:8] * weights.ipn.9.2)
+      remainder = (summ %% 11) %% 10
+      
+      return(remainder == last(code))
+    }
+    
+    return(FALSE)
+  })
   
-  
-  
-  
-  
-  print('Not implemented')
-  return(FALSE)
+  return(res)
 }
