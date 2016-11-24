@@ -1,6 +1,6 @@
 load 'ukrainian_codes.rb'
 
-codes = File.open('edrpou.txt').map {|c| c.gsub(/\n+/,'')}
+codes = File.open('../data/edrpou.txt').map {|c| c.gsub(/\n+/,'')}
 
 res = codes.map{ |c| UkrainianCodes.edrpou? c}
 
@@ -11,7 +11,7 @@ puts "EDRPOU"
 puts "True - #{trues}"
 puts "False - #{falses}"
 
-codes = File.open('ipn_10.txt').map {|c| c.gsub(/\n+/,'')}
+codes = File.open('../data/ipn_10.txt').map {|c| c.gsub(/\n+/,'')}
 
 res = codes.map{ |c| UkrainianCodes.ipn? c}
 
@@ -22,7 +22,7 @@ puts "IPN 10"
 puts "True - #{trues}"
 puts "False - #{falses}"
 
-codes = File.open('ipn_12.txt').map {|c| c.gsub(/\n+/,'')}
+codes = File.open('../data/ipn_12.txt').map {|c| c.gsub(/\n+/,'')}
 
 res = codes.map{ |c| UkrainianCodes.ipn? c}
 
@@ -33,7 +33,7 @@ puts "IPN 12"
 puts "True - #{trues}"
 puts "False - #{falses}"
 
-codes = File.open('ipn_9.txt').map {|c| c.gsub(/\n+/,'')}
+codes = File.open('../data/ipn_9.txt').map {|c| c.gsub(/\n+/,'')}
 
 res = codes.map{ |c| UkrainianCodes.ipn? c}
 
